@@ -43,9 +43,29 @@ boundary, and it is also why credentials have to be forwarded in explicitly.
 brig is not a container runtime and does not try to be one. It delegates boot,
 exec and stop to the runtime underneath, and adds the four things neither has
 a concept of: the workspace as guest home, credentials resolved on the host
-and forwarded per exec, a denylist for the provider keys that would silently
+and handed to the guest, a denylist for the provider keys that would silently
 move you onto metered billing, and signature verification of the guest image
 before it boots.
+
+## Credentials
+
+A sandbox with no credential still boots -- the agent asks you to log in
+inside it, the way it would on a machine you had just set up. If you would
+rather reuse the login already on your Mac, carry it in once:
+
+```bash
+brig secret import claude-code
+```
+
+That reads your host keychain **once, when you type it**, and copies the value
+into brig's own store. Every run afterwards reads only that store, so a run
+opens no other application's keychain item and raises no approval dialog.
+
+Where the credential lands in the guest is the profile's decision. Claude Code
+gets a file, at the path it already reads, written into a memory-only mount --
+so the token never reaches your disk, by construction rather than by
+inspection. Others travel as environment variables, for tools that offer no
+file interface.
 
 ## Supported platforms
 
