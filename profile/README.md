@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/brig-sh/brig/main/assets/brig-lockup-on-dark.svg">
-    <img alt="brig" src="https://raw.githubusercontent.com/brig-sh/brig/main/assets/brig-lockup-on-light.svg" width="320">
+    <img alt="brig" src="https://raw.githubusercontent.com/brig-sh/brig/main/assets/brig-lockup-on-light.svg" width="280">
   </picture>
 </p>
 
