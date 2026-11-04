@@ -1,135 +1,188 @@
-# brig-sh AI Policy
+# AI policy
 
 AI-assisted development is welcome in brig-sh.
 
-We encourage contributors to use AI tools, coding agents, automated reasoning, and other software-engineering systems where they are useful. We are also interested in experiments with frontier models, agentic workflows, automated debugging, testing, code review, and other new ways of building reliable software.
+We encourage contributors to use AI tools, coding agents, automated
+reasoning, and other software-engineering systems where they are useful. We
+are also interested in experiments with frontier models, agentic workflows,
+automated debugging, testing, code review, and other new ways to build
+reliable software.
 
-AI is a development tool. Using it does not make a contribution more or less valuable by itself. What matters is the quality of the result.
+AI is a development tool. The use of AI does not make a contribution more
+valuable or less valuable. The quality of the result decides.
 
 ## Disclosure is not required
 
-You do not need to disclose that AI was used to create a contribution.
+You do not need to disclose that AI helped create a contribution. Ordinary
+AI assistance does not need a label, footer, or declaration.
 
-You are welcome to describe the models, agents, prompts, workflows, or experiments that helped produce your work when that information is interesting or useful. Ordinary AI assistance does not require a label, footer, or declaration.
+You are welcome to describe the models, agents, prompts, workflows, or
+experiments behind your work when that information is interesting or useful.
 
-When the generation process itself matters for reproducing or evaluating the contribution (for example, an AI benchmark, a generated test corpus, or an experiment with autonomous agents), documenting that process is encouraged.
+When the generation process matters for reproducing or evaluating the
+contribution, document that process. Examples are an AI benchmark, a
+generated test corpus, and an experiment with autonomous agents.
 
-## Responsibility does not transfer to the model
+## Responsibility stays with you
 
-A contribution is judged as a contribution to brig-sh, not as AI output.
+Maintainers judge a contribution as a contribution to brig-sh, not as AI
+output.
 
-By submitting code, documentation, tests, benchmarks, or other material, you take responsibility for it in the same way you would if you had written every line manually.
+When you submit code, documentation, tests, benchmarks, or other material,
+you take responsibility for it as if you wrote every line yourself.
 
-Before submitting a change:
+Before you submit a change:
 
-* understand what the change is intended to do;
-* review the resulting diff;
-* run the applicable tests and repository gates;
-* verify claims about correctness, performance, compatibility, and security;
-* remove speculative, irrelevant, duplicated, or unnecessary changes.
+* Understand what the change is intended to do.
+* Review the resulting diff.
+* Run the applicable tests and repository gates.
+* Verify claims about correctness, performance, compatibility, and security.
+* Remove speculative, irrelevant, duplicated, or unnecessary changes.
 
-Do not claim that tests passed, a bug was reproduced, a benchmark improved, or a behavior was verified unless that actually happened.
+Do not claim that tests passed, a bug was reproduced, a benchmark improved,
+or a behavior was verified unless that happened.
 
-"An AI generated it" is neither an excuse for a defect nor evidence that something is correct.
+"An AI generated it" does not excuse a defect. It is also not evidence that
+something is correct.
 
 ## Respect maintainer attention
 
-AI can make producing code cheap. Reviewing code is not cheap.
+AI makes code cheap to produce. Review still costs maintainers time. Do not
+use that difference to transfer work to maintainers.
 
-Do not use that asymmetry to transfer work to maintainers. Large quantities of unreviewed generated code, speculative fixes, issue-farming, mechanical repository-wide rewrites, or pull requests whose author has made little effort to establish correctness may be closed.
+Maintainers can close any of these:
 
-A contribution should make the project better, not merely make the diff larger.
+* Large quantities of unreviewed generated code.
+* Speculative fixes.
+* Issue-farming.
+* Mechanical repository-wide rewrites.
+* A pull request whose author made little effort to establish correctness.
 
-Small, well-understood changes are usually easier to evaluate than broad changes made just because an agent was capable of producing them.
+A contribution must make the project better. A larger diff alone does not.
 
-## AI does not relax brig-sh's engineering rules
+Small, well-understood changes are usually easier to evaluate than broad
+changes made only because an agent can produce them.
 
-All repository rules, architectural decisions, compatibility requirements, and correctness invariants apply equally to AI-assisted and manually written changes.
+## Engineering rules still apply
 
-An agent finding an easy implementation is not a reason to bypass an architectural boundary.
+All repository rules, architectural decisions, compatibility requirements,
+and correctness invariants apply equally to AI-assisted and manually written
+changes.
 
-Changes to durable formats, consistency semantics, protocols, public behavior, or other architectural contracts require the same design consideration and review they would require without AI. Where the repository requires an ADR, specification change, compatibility analysis, or particular test coverage, AI-assisted work must satisfy those requirements too.
+An easy implementation that an agent finds is not a reason to bypass an
+architectural boundary.
 
-Prefer evidence over confidence: tests, fault injection, benchmarks, reproductions, and clear reasoning are more useful than an agent's assertion that a change is correct.
+Changes to durable formats, consistency semantics, protocols, public
+behavior, or other architectural contracts need the same design
+consideration and review as any other change. This applies with or without
+AI. Where the repository requires a specification change, compatibility
+analysis, or particular test coverage, AI-assisted work must satisfy those
+requirements too.
+
+Prefer evidence over confidence. Tests, fault injection, benchmarks,
+reproductions, and clear reasoning are more useful than the assertion of an
+agent that a change is correct.
 
 ## Agentic contributions are welcome
 
-brig-sh may be developed using interactive assistants as well as autonomous or unattended agents.
+brig-sh development can use interactive assistants, and autonomous or
+unattended agents.
 
-Agents should be given bounded tasks, sufficient repository context, and objective verification criteria. Their output should be inspected and validated before it becomes part of the project.
+Give an agent bounded tasks, sufficient repository context, and objective
+verification criteria. Inspect and validate its output before it becomes
+part of the project.
 
-Autonomy increases the importance of verification; it does not reduce it.
+More autonomy makes verification more important, not less.
 
-Repository-maintained automation may create commits, pull requests, reports, or other operational messages as part of established workflows. External automation must not be used to flood issues, pull requests, reviews, or discussions.
+Repository-maintained automation can create commits, pull requests, reports,
+or other operational messages as part of established workflows. External
+automation must not flood issues, pull requests, reviews, or discussions.
 
 ## Communicating with maintainers
 
-AI can help you understand review feedback, investigate a problem, or improve the clarity of a response.
+AI can help you understand review feedback, investigate a problem, or
+make a response clearer.
 
-Do not use it to generate high-volume or non-responsive discussion. A reply to review feedback should show that you considered the feedback and, when appropriate, that you inspected or tested the underlying code.
+Do not use AI to generate high-volume or non-responsive discussion. A reply
+to review feedback must show that you considered the feedback. When
+appropriate, it must also show that you inspected or tested the underlying
+code.
 
-Never invent explanations, measurements, reproductions, citations, or technical conclusions simply because a model produced plausible text.
+Never invent explanations, measurements, reproductions, citations, or
+technical conclusions because a model produced plausible text.
 
-Maintainer conversation is part of engineering the change, not an obstacle to automate away.
+A conversation with a maintainer is part of the engineering work on the
+change. Do not automate it away.
 
-## Prefer AI where verification is strong
+## Prefer verifiable work
 
-AI is most useful when its output can be checked objectively.
+AI is most useful when its output can be checked objectively. Examples
+include:
 
-Examples include:
+* Finding and fixing bugs.
+* Adding regression and property tests.
+* Simplifying or deleting unnecessary code.
+* Improving error handling.
+* Fuzzing and fault-injection work.
+* Improving build and CI tooling.
+* Identifying performance regressions.
+* Improving documentation.
+* Analyzing concurrency or failure paths.
+* Detecting inconsistencies between implementation and specification.
+* Security research and defensive analysis.
 
-* finding and fixing bugs;
-* adding regression and property tests;
-* simplifying or deleting unnecessary code;
-* improving error handling;
-* fuzzing and fault-injection work;
-* improving build and CI tooling;
-* identifying performance regressions;
-* improving documentation;
-* analyzing concurrency or failure paths;
-* detecting inconsistencies between implementation and specification;
-* security research and defensive analysis.
-
-Large features are welcome too, but AI does not replace design. The larger the semantic or architectural change, the more important it is to establish the design before generating the implementation.
+Large features are welcome too, but AI does not replace design. The larger
+the semantic or architectural change, the more important it is to establish
+the design before you generate the implementation.
 
 ## Security and sensitive data
 
-Do not expose secrets, credentials, private telemetry, vulnerability reports under embargo, proprietary code, personal data, or other information you are not authorized to disclose to an AI service.
+Do not expose any of these to an AI service:
 
-Contributors are responsible for understanding how the tools they use handle data.
+* Secrets and credentials.
+* Private telemetry.
+* Vulnerability reports under embargo.
+* Proprietary code.
+* Personal data.
+* Any other information that you are not authorized to share.
 
-AI-generated code must meet the same security expectations as any other code. Give generated dependency additions, cryptographic code, parsers, authentication logic, unsafe input handling, and security-sensitive configuration extra scrutiny.
+You are responsible for understanding how the tools you use handle data.
+
+AI-generated code must meet the same security expectations as any other
+code. Give extra scrutiny to generated dependency additions, cryptographic
+code, parsers, authentication logic, unsafe input handling, and
+security-sensitive configuration.
 
 ## Intellectual property and provenance
 
-The same intellectual-property and licensing rules apply regardless of how a contribution was produced.
+The same intellectual-property and licensing rules apply to every
+contribution, however it was produced. AI output does not remove provenance
+or licensing obligations.
 
-Do not submit code, documentation, tests, or other material copied or reproduced from another project unless you have the right to do so and you meet every applicable license and attribution requirement.
+Do not submit code, documentation, tests, or other material copied or
+reproduced from another project unless you have the right to do so. You must
+meet every applicable license and attribution requirement.
 
-AI output does not remove provenance or licensing obligations.
-
-You are responsible for making sure you have the legal right to contribute the material you submit.
+You are responsible for making sure that you have the legal right to
+contribute the material you submit.
 
 ## Research is welcome
 
-We welcome research involving brig-sh and AI-assisted software engineering, including:
+We welcome research that involves brig-sh and AI-assisted software engineering,
+including:
 
-* model comparisons and identical-task evaluations;
-* automated bug repair;
-* test generation;
-* agentic development loops;
-* reproducibility studies;
-* code-review experiments;
-* security analysis;
-* failure-injection experiments;
-* new approaches to autonomous software engineering.
+* Model comparisons and identical-task evaluations.
+* Automated bug repair.
+* Test generation.
+* Agentic development loops.
+* Reproducibility studies.
+* Code-review experiments.
+* Security analysis.
+* Failure-injection experiments.
+* New approaches to autonomous software engineering.
 
-Research should preserve the same standards of safety, licensing, and repository integrity as ordinary development.
+Research must preserve the same standards of safety, licensing, and
+repository integrity as ordinary development.
 
-If an experiment produces a genuinely useful improvement to brig-sh, we welcome it as a contribution.
-
----
-
-The short version:
-
-**Use AI freely. Do not submit slop. Verify what you submit. Respect maintainer attention. Follow the architecture. Take responsibility for the result.**
+If an experiment produces a useful improvement to brig-sh, we welcome it as a
+contribution.
