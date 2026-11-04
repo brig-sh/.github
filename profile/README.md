@@ -120,13 +120,11 @@ anyway. `BRIG_VERIFY=require` refuses one instead.
 | Host | Runtime | Status |
 | --- | --- | --- |
 | macOS 15 or newer, Apple silicon | [hull](https://github.com/brig-sh/hull), on one of three hypervisor backends | Supported |
-| macOS 14, Apple silicon | hull, with `BRIG_HYPERVISOR=vz` | Works, not tested |
 | macOS, Intel | | Not supported. There is no Intel build of hull |
 | Linux, arm64 and x86-64 | `nerdctl` and containerd, with the urunc shim (`io.containerd.urunc.v2`) on the `hvi` monitor by default, installed by `install.sh` | Supported |
 
 hull is tested on macOS 26. Seven of the nine agent profiles brig ships ask
-hull for its `hvi` backend, which needs macOS 15, so `BRIG_HYPERVISOR=vz`
-is the way past that floor on macOS 14.
+hull for its `hvi` backend, which needs macOS 15.
 
 The published guest images are multi-arch, for arm64 and x86-64. Any Linux CLI
 in an OCI image runs as a bring-your-own image, so the agent profiles are a
