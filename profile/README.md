@@ -7,7 +7,7 @@
 
 <p align="center"><strong>Run a coding agent in a microVM on your own machine, with the credentials it needs and none of the ones it does not.</strong></p>
 
-<p align="center"><a href="https://brig.sh">brig.sh</a> · <a href="https://github.com/brig-sh/brig/tree/main/docs">documentation</a></p>
+<p align="center"><a href="https://brig.sh">brig.sh</a> · <a href="https://brig.sh/docs/">documentation</a></p>
 
 ---
 
@@ -27,14 +27,14 @@ brig run claude ~/code/demo
 Or with the install script, on macOS or Linux:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/brig-sh/brig/main/install.sh | sh
+curl -fsSL https://brig.sh/install | sh
 ```
 
-On Linux the script installs the runtime too: containerd, nerdctl, urunc and
-the guest kernel. Under `sudo` it installs for the whole host. As a normal user
-it installs a rootless runtime under `$HOME`, once root has prepared the host.
-[docs/install.md](https://github.com/brig-sh/brig/blob/main/docs/install.md)
-has the details.
+On Linux the script installs the runtime too: containerd, nerdctl, urunc, the
+`hvi` monitor it boots on by default, and the guest kernel. Under `sudo` it
+installs for the whole host. As a normal user it installs a rootless runtime
+under `$HOME`, once root has prepared the host.
+[Install](https://brig.sh/docs/install/) has the details.
 
 `brig doctor` checks the host and prints a fix beside each problem it finds.
 The run mounts `~/code/demo` read-write at `/work/demo` and starts the agent
@@ -61,6 +61,12 @@ lands on host disk. Other credentials travel as environment variables, for
 agents that read no credential file. A profile can also bind a variable from
 the shell you run brig in, as `claude-code` does with `GH_TOKEN`.
 
+A policy with a route keeps the login on the host instead. `brig-broker` runs
+on the host and adds the credential to each request the route allows. The guest
+gets the route URL and a session token, which `brig stop` revokes, and no
+credential file. Routes run on hull's `hvi` backend and on nerdctl with urunc.
+[Credential broker](https://brig.sh/docs/broker/) has the details.
+
 ## How it fits together
 
 The agent runs in a guest with its own kernel. Two host directories reach
@@ -76,8 +82,8 @@ default: the agent reaches the internet, so anything it can read it can also
 send. Sandboxes on `shared` also reach each other on hull's `hvi` backend, and
 should be assumed to on Linux. On `hvi` and on Linux, `isolated` gives a
 sandbox a network of its own. `offline` gives it no route out. An egress policy
-is enforced only on `hvi`, and brig refuses a policy-bound boot on any backend
-that cannot enforce it.
+is enforced on `hvi` and on Linux, and brig refuses a policy-bound boot on any
+backend that cannot enforce it.
 
 A port opens on the host only when you publish one. It binds to `127.0.0.1`
 unless you name another address:
@@ -94,10 +100,12 @@ On Linux a port is published when the sandbox is created, with
 </p>
 
 brig is not a container runtime and does not try to be one. It delegates boot,
-exec and stop to the runtime underneath, and adds five things on top:
+exec and stop to the runtime underneath, and adds six things on top:
 
 - a guest home plus a named project mount;
 - credentials resolved on the host and delivered per exec;
+- a credential broker on the host, which adds a credential to the requests a
+  route allows, so the guest never holds it;
 - a denylist for the provider keys that can silently move you onto metered
   billing;
 - a network posture per sandbox, and an egress policy bound to a profile or a
@@ -114,9 +122,9 @@ anyway. `BRIG_VERIFY=require` refuses one instead.
 | macOS 15 or newer, Apple silicon | [hull](https://github.com/brig-sh/hull), on one of three hypervisor backends | Supported |
 | macOS 14, Apple silicon | hull, with `BRIG_HYPERVISOR=vz` | Works, not tested |
 | macOS, Intel | | Not supported. There is no Intel build of hull |
-| Linux, arm64 and x86-64 | `nerdctl` and containerd, with the urunc shim (`io.containerd.urunc.v2`), installed by `install.sh` | Supported |
+| Linux, arm64 and x86-64 | `nerdctl` and containerd, with the urunc shim (`io.containerd.urunc.v2`) on the `hvi` monitor by default, installed by `install.sh` | Supported |
 
-hull is tested on macOS 26. Six of the eight agent profiles brig ships ask
+hull is tested on macOS 26. Seven of the nine agent profiles brig ships ask
 hull for its `hvi` backend, which needs macOS 15, so `BRIG_HYPERVISOR=vz`
 is the way past that floor on macOS 14.
 
@@ -130,21 +138,22 @@ convenience rather than a requirement.
 | --- | --- |
 | [**brig**](https://github.com/brig-sh/brig) | the CLI and the session daemon |
 | [**hull**](https://github.com/brig-sh/hull) | the microVM runtime on macOS, which boots an OCI image as a real VM |
-| [**hvi-vmm**](https://github.com/brig-sh/hvi-vmm) | the microVMM behind hull's `hvi` backend: Hypervisor.framework on macOS, KVM on Linux |
+| [**hvi-vmm**](https://github.com/brig-sh/hvi-vmm) | the microVMM behind hull's `hvi` backend, and the default monitor on Linux: Hypervisor.framework on macOS, KVM on Linux |
 | [**community-images**](https://github.com/brig-sh/community-images) | guest images, with open Dockerfiles |
 | [**homebrew-brig**](https://github.com/brig-sh/homebrew-brig) | the Homebrew tap |
 | [**brig-artwork**](https://github.com/brig-sh/brig-artwork) | the brand marks, and the generator that builds them |
 
-brig and hull are Apache-2.0 and Go. hvi-vmm is Apache-2.0 and Rust, and
-publishes no crate and no release of its own. hull builds `hvi` from it, signs
-and notarizes it, and ships it with hull.
+brig and hull are Apache-2.0 and Go. hvi-vmm is Apache-2.0 and Rust. It
+publishes signed releases of `hvi`, and hull ships the release pinned in its
+`hvi.pin`, after it checks the signature and the hash.
 
 ## What we sign
 
 The macOS binaries carry a Developer ID signature and are notarized by Apple.
 Each tagged release signs its `checksums.txt` with keyless cosign, and the
-guest images are signed the same way. A keyless signature is bound to the
-workflow that produced it rather than to a key somebody holds.
+guest images and the `hvi` releases are signed the same way. A keyless
+signature is bound to the workflow that produced it rather than to a key
+somebody holds.
 
 The kernel and initrd a sandbox boots are checked too. brig verifies the boot
 bundle's signature, fetches the bundle by the digest that verified, and hashes
@@ -155,9 +164,10 @@ differs refuses the run. Only a kernel build of your own, named with
 the default.
 
 Two gaps worth naming. `install.sh` checks brig's and hull's archives against
-`checksums.txt`, and does not check the cosign signature on that file. With
-cosign available, it does check the signature on the Linux runtime's checksums,
-and stops when that signature is missing or does not verify.
+`checksums.txt`, and does not check the cosign signature on that file. On
+Linux it checks the signature on the runtime's checksums, with a pinned cosign
+that it downloads when the host has none. It stops when that signature is
+missing or does not verify.
 
 The second gap is the time between the check and the boot. brig hashes the
 kernel and initrd before the runtime starts, and the runtime opens them later,
@@ -166,7 +176,7 @@ file. On macOS hull checks a staged copy against its own record. On Linux
 nothing checks the files again.
 
 Everything else, including where the boundary is weaker than it looks, is in
-[brig's security documentation](https://github.com/brig-sh/brig/blob/main/docs/security.md).
+[brig's security documentation](https://brig.sh/docs/security/).
 
 ## What we count
 
